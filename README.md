@@ -1,3 +1,5 @@
+Technologies used: python, grpc, google cloud platform
+
 install grpcio and grpcio-tools
 $ python3 -m pip install grpcio
 $ python3 -m pip install grpcio-tools
