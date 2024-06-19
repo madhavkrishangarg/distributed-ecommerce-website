@@ -1,0 +1,161 @@
+syntax="proto3";
+
+option java_multiple_files = true;
+option java_package = "marketplace";
+option java_outer_classname = "MarketplaceProto";
+
+package marketplace;
+
+service Marketplace {
+    // Seller
+    rpc registerSeller(registerSellerRequest) returns (registerSellerResponse) {}
+    rpc sellItem(sellItemRequest) returns (sellItemResponse) {}
+    rpc updateItem(updateItemRequest) returns (updateItemResponse) {}
+    rpc deleteItem(deleteItemRequest) returns (deleteItemResponse) {}
+    rpc displaySellerItems(displaySellerItemsRequest) returns (stream Item) {}
+    
+    //Buyer
+    rpc searchItem(searchItemRequest) returns (stream Item) {}
+    rpc buyItem(buyItemRequest) returns (buyItemResponse) {}
+    rpc addToWishlist(addToWishlistRequest) returns (addToWishlistResponse) {}
+    rpc rateItem(rateItemRequest) returns (rateItemResponse) {}
+    
+    //Buyer and Seller
+    rpc notifySeller(notifySellerRequest) returns (notifySellerResponse) {}
+    rpc notifyBuyer(notifyBuyerRequest) returns (notifyBuyerResponse) {}
+}
+
+message Item{
+    int32 item_id = 1;
+    string name = 2;
+    oneof category {
+        bool electronics = 3;
+        bool fashion = 4;
+        bool other = 5;
+    }
+    int32 price = 6;
+    int32 quantity = 7;
+    string description = 8;
+    string seller_address = 9;
+    string seller_uuid = 10;
+    int32 rating = 11;
+}
+
+message registerSellerRequest {
+    //ip adress port and uuid
+    string address = 1;
+    string uuid = 2;
+}
+
+message registerSellerResponse {
+    bool success = 1;
+}
+
+message sellItemRequest {
+    string name = 1;
+    oneof category {
+        bool electronics = 2;
+        bool fashion = 3;
+        bool other = 4;
+    }
+    int32 quantity = 5;
+    string description = 6;
+    string seller_address = 7;
+    int32 price = 8;
+    string seller_uuid = 9;
+}
+
+message sellItemResponse {
+    bool success = 1;
+    int32 item_id = 2;
+}
+
+message updateItemRequest {
+    int32 item_id = 1;
+    int32 price = 2;
+    int32 quantity = 3;
+    string description = 4;
+    string seller_address = 5;
+    string seller_uuid = 6;
+}
+
+message updateItemResponse {
+    bool success = 1;
+}
+
+message deleteItemRequest {
+    int32 item_id = 1;
+    string seller_uuid = 2;
+    string seller_address = 3;
+}
+
+message deleteItemResponse {
+    bool success = 1;
+}
+
+message displaySellerItemsRequest {
+    string seller_uuid = 1;
+    string seller_address = 2;
+}
+
+// message displaySellerItemsResponse {
+//     repeated Item items = 1;
+// }
+
+message searchItemRequest{
+    string name = 1;
+    oneof category {
+        bool electronics = 2;
+        bool fashion = 3;
+        bool other = 4;
+    }
+}
+
+// message searchItemResponse{
+//     repeated Item items = 1;
+// }
+
+message buyItemRequest{
+    int32 item_id = 1;
+    int32 quantity = 2;
+    string address = 3;
+}
+
+message buyItemResponse{
+    bool success = 1;
+}
+
+message addToWishlistRequest{
+    int32 item_id = 1;
+    string address = 2;
+}
+
+message addToWishlistResponse{
+    bool success = 1;
+}
+
+message rateItemRequest{
+    int32 item_id = 1;
+    int32 rating = 2;
+    string address = 3;
+}
+
+message rateItemResponse{
+    bool success = 1;
+}
+
+message notifySellerRequest{
+    string msg = 1;
+}
+
+message notifySellerResponse{
+    bool success = 1;
+}
+
+message notifyBuyerRequest{
+    string msg = 1;
+}
+
+message notifyBuyerResponse{
+    bool success = 1;
+}
